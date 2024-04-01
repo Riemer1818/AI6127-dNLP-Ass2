@@ -2,13 +2,18 @@ import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import SerperDevTool
+import os
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import SerperDevTool
 
 
+# Load .env file
+load_dotenv(".env")
 
-os.environ["SERPER_API_KEY"] = "0abcb4555be8f2e6e1221c9e040624f486735e0f"
-os.environ["OPENAI_MODEL_NAME"]="gpt-3.5-turbo"
-os.environ["OPENAI_API_KEY"]="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"
 
+# Rest of your code...
 
 search_tool = SerperDevTool()
 
