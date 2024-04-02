@@ -1,2 +1,6 @@
-# torch 
-# sklearn
+name : dNLP_ass2
+dependencies:
+  - pytorch
+  - scipy
+  - torchmetrics
+  - jupyter
