@@ -66,8 +66,7 @@
 
 % ====== ABSTRACT ======
 \section*{Abstract}
-Briefly summarize the scope, methods, results, and conclusions of your report.
-
+This report investigates Seq2Seq models for machine translation, analyzing their performance across various architectures. Beginning with a baseline GRU model, we explore LSTM, Bi-LSTM, attention mechanisms, and transformer encoders. Using Rouge scores, we assess translation quality. Results reveal attention-based models' superiority, particularly in bi-gram matching, showcasing their adeptness at capturing contextual nuances. Notably, Transformer models show promise but lag in convergence after two epochs, indicating potential for further improvement through extended training and hyperparameter optimization. This underscores attention mechanisms' pivotal role in advancing Seq2Seq models for translation tasks, highlighting refinement to achieve optimal performance.
 \section{Introduction}
 This report focuses on the implementation and comparative analysis of various Seq2Seq models for the task of machine translation. We begin with a baseline model utilizing GRU for both the encoder and decoder components, renowned for their efficiency and capacity to mitigate vanishing gradient problems common in traditional RNNs. Subsequently, we explore the substitution of GRU with LSTM in the encoder and decoder, aiming to leverage LSTM's more complex gating mechanisms for better information flow. Additionally, the implementation includes a variant with a bidirectional LSTM (Bi-LSTM) in the encoder, designed to enhance the model's context understanding by processing the input sequence in both forward and reverse directions.
 
@@ -156,7 +155,7 @@ Attention allows the model to focus on different parts of the input sequence for
 
 \textbf{Transformer Encoder Model}
 
-GRUs process data sequentially, which inherently limits the speed of computation, especially for long sequences. 
+GRUs process data sequentially, which inherently limits the speed of computation, especially for long sequences. The Transformer model, addresses sequential processing limitations by employing self-attention mechanisms, enabling parallel computation and facilitating more effective learning across long sequences.
 
 \begin{table}[ht]
     \centering
@@ -168,52 +167,51 @@ GRUs process data sequentially, which inherently limits the speed of computation
     Baseline GRU & 0.6239 & 0.5904 & 0.6722 & 0.4336 & 0.4035 & 0.4785 \\
     LSTM & 0.6016 & 0.5764 & 0.6378 & 0.4040 & 0.3818 & 0.4378 \\
     Bi-LSTM & 0.6204 & 0.5912 & 0.6619 & 0.4232 & 0.3964 & 0.4631 \\
-    Model with Attention & 0.6881 & 0.6508 & 0.7393 & 0.5141 & 0.4772 & 0.5674 \\
+    Attention model & 0.6881 & 0.6508 & 0.7393 & 0.5141 & 0.4772 & 0.5674 \\
+    Transformer model & 0.2069 & 0.2604 & 0.1793 & 0.1209 & 0.1615 & 0.1029 \\
     \hline
     \end{tabular}
-    \caption{Evaluation scores - Rouge metrics for different models}
+    \caption{Evaluation scores - Rouge metrics for the different models}
     \label{table:rouge_scores}
 \end{table}
 
-
-
 \begin{figure}[htbp]
     \centering
-    \begin{minipage}[b]{0.2\textwidth}
+    \begin{minipage}[t]{0.19\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/GRU_learning.png}
-        \caption{GRU Model}
+        \includegraphics[width=\textwidth]{img/GRU_learning.png} \\
+        \caption{GRU}
         \label{fig:gru}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.2\textwidth}
+    \begin{minipage}[t]{0.19\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/LSTM_learning.png}
-        \caption{LSTM Model}
+        \includegraphics[width=\textwidth]{img/LSTM_learning.png} \\
+        \caption{LSTM}
         \label{fig:lstm}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.2\textwidth}
+    \begin{minipage}[t]{0.19\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/LSTMBi_learning.png}
-        \caption{Bi-LSTM Model}
+        \includegraphics[width=\textwidth]{img/LSTMBi_learning.png} \\
+        \caption{Bi-LSTM}
         \label{fig:bilstm}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.2\textwidth}
+    \begin{minipage}[t]{0.19\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/Attention_learning.png}
-        \caption{Attention Model}
+        \includegraphics[width=\textwidth]{img/Attention_learning.png} \\
+        \caption{Attention}
         \label{fig:attention}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.2\textwidth}
+    \begin{minipage}[t]{0.19\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/Attention_learning.png}
-        \caption{Transformer Model}
+        \includegraphics[width=\textwidth]{img/Transformer_learning.png} \\
+        \caption{Transformer}
         \label{fig:transformer}
     \end{minipage}
-    \caption{Comparison of Seq2Seq Models}
+    \caption{Comparison of Seq2Seq Models training over 2 epochs.}
     \label{fig:seq2seq_models}
 \end{figure}
 
@@ -223,15 +221,21 @@ As you can see in table \ref{table:rouge_scores}, the model with attention outpe
 
 It's worth noting that the attention model scores particularly high on the Rouge2 set, which implies that attention has some additional benefits when it comes to bi gram matching. That none of the other models possess.
 
-When it comes to learning there should be considered hyperpareter optimization, but as can be seen in \ref{fig:gru}, \ref{fig:lstm}, \ref{fig:bilstm}, \ref{fig:attention}, and \ref{fig:transformer} the models are learning at a similar pace and all converging. 
+When it comes to learning there should be considered hyperparameter optimization, but as can be seen in \ref{fig:gru}, \ref{fig:lstm}, \ref{fig:bilstm}, \ref{fig:attention}, and \ref{fig:transformer} the models are learning at a similar pace and all converging. However, the transformer model, after 2 epochs, seems to be much further removed from converging. Which implies more epochs would benefit this model in particular. 
 
 \section{Conclusion}
 
+In conclusion, the comparative analysis of Seq2Seq models for machine translation reveals that the model incorporating attention mechanism outperforms others in terms of Rouge scores. This superiority is attributed to the attention mechanism's capability to dynamically weigh the relevance of input words based on the context of the output being generated. Particularly, the attention model excels in bi-gram matching, which is evident from its high Rouge2 score compared to other models.
+
+Moreover, while all models exhibit similar learning trends and convergence patterns, the transformer model appears to lag in convergence after 2 epochs. This suggests that further training epochs would likely benefit the transformer model, emphasizing the importance of hyperparameter optimization for optimal performance across all models.
+
+In essence, the study underscores the significance of attention mechanism in enhancing the performance of Seq2Seq models for machine translation tasks, and it highlights the potential for further improvements through continued training and fine-tuning of hyperparameters.
 \section{References}
 \bibliographystyle{IEEEtran}
 % Include your references here
 
 \section{Appendix}
-% Any additional information
+
+Codebase can be found under `./src` in the git repository \url{https://github.com/Riemer1818/AI6127-dNLP-Ass2}.
 
 \end{document}
